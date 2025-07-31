@@ -9,11 +9,17 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Initialize database tables
-db.run('CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY, title TEXT, description TEXT)');
-db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT, password TEXT, name TEXT)');
+db.run('CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY, title TEXT, description TEXT)', (err) => {
+  if (err) console.error('Error creating projects table:', err.message);
+});
+db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT, password TEXT, name TEXT)', (err) => {
+  if (err) console.error('Error creating users table:', err.message);
+});
 
 // Sample project data (optional, for testing)
-db.run('INSERT OR IGNORE INTO projects (id, title, description) VALUES (?, ?, ?)', [1, 'GreenLeaf Cafe Website', 'Build a website for a cafe using HTML/CSS/JS']);
+db.run('INSERT OR IGNORE INTO projects (id, title, description) VALUES (?, ?, ?)', [1, 'GreenLeaf Cafe Website', 'Build a website for a cafe using HTML/CSS/JS'], (err) => {
+  if (err) console.error('Error inserting project:', err.message);
+});
 
 app.get('/api/projects', (req, res) => {
   db.all('SELECT * FROM projects', [], (err, rows) => {
