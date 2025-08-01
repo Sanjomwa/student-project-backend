@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: student-project-backend
+    env: node
+    plan: free
+    branch: main
+    repo: https://github.com/Sanjomwa/student-project-backend
+    buildCommand: |
+      apt-get update && apt-get install -y python3 make g++
+      npm install --build-from-source
+    startCommand: node server.js
+    envVars:
+      - key: NODE_VERSION
+        value: 14.20.1
