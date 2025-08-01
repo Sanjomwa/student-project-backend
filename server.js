@@ -7,7 +7,10 @@ const db = new sqlite3.Database('database.db');
 
 app.use(cors());
 app.use(bodyParser.json());
-
+// Add this after app.use(bodyParser.json());
+app.get('/', (req, res) => {
+  res.send('Welcome to the Project Management API');
+});
 // Initialize database tables
 db.run('CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY, title TEXT, description TEXT)', (err) => {
   if (err) console.error('Error creating projects table:', err.message);
